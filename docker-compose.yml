@@ -1,0 +1,16 @@
+version: '2'
+
+services: 
+  app:
+    container_name: ms-helloworld
+    build: .
+    volumes:
+      - .:/go/src/app
+    ports:
+      - 3737
+    environment:
+      - APP_ENV=development
+    command: CompileDaemon -build="go-wrapper install" -command="go-wrapper run" -exclude-dir=.git
+
+# @see: https://github.com/codegangsta/gin
+
