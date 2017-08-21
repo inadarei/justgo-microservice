@@ -1,15 +1,16 @@
-FROM golang:1.7-alpine
+FROM golang:1.8-alpine3.6
 MAINTAINER Irakli Nadareishvili
 
-# Note: if you change GOPATH here, you need to change in .env for docker-compose.yml, too
 ENV PORT=3737
-ENV GOPATH=/go
-ENV PATH=${GOPATH}/bin:${PATH}
+# Commented-out because these are defaults anyway
+# ENV GOPATH=/go
+# ENV PATH=${GOPATH}/bin:${PATH}
 ENV APP_USER=appuser
+ENV SRC_PATH=/home/app
 ENV APP_ENV=production
 
-COPY . ${GOPATH}/src/app
-WORKDIR ${GOPATH}/src/app
+COPY . ${SRC_PATH}
+WORKDIR ${SRC_PATH}
 
 USER root
 
@@ -18,11 +19,17 @@ RUN adduser -s /bin/false -D ${APP_USER} \
  && apk update && apk upgrade \
  && apk add --no-cache bash git openssh \
  && echo "Installing infrastructural go packages…" \
- && go get github.com/githubnemo/CompileDaemon \
+ && go get -u github.com/githubnemo/CompileDaemon \
+ && go get -u github.com/golang/dep/cmd/dep \
  && echo "Building project…" \
+ && ${SRC_PATH}/go-wrapper env \ 
+ && export goDir="$(go list -e -f '{{.ImportComment}}' 2>/dev/null || true)" \
+ && cd "${GOPATH}/src/${goDir}" \
+ && ${SRC_PATH}/go-wrapper dep \
  && go-wrapper install \
  && echo "Fixing permissions..." \
  && chown -R ${APP_USER} ${GOPATH} \
+ && chown -R ${APP_USER} ${SRC_PATH} \
  && echo "Cleaning up installation caches to reduce image size" \
  && rm -rf /root/src /tmp/* /usr/share/man /var/cache/apk/* 
 

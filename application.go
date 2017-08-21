@@ -22,6 +22,7 @@ func main() {
 	}
 
 	server.StartServer(serverPort)
+	log.Print("Server started.")
 }
 
 // @see: https://golang.org/doc/code.html

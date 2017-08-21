@@ -1,11 +1,12 @@
 version: '2'
 
 services: 
-  app:
+  ms-helloworld:
     container_name: ms-helloworld
     build: .
     volumes:
-      - .:/go/src/app
+      - .:/home/app
+      - /home/app/vendor
     ports:
       - 3737
     environment:

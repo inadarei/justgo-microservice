@@ -73,6 +73,17 @@ else
 fi
 
 case "$cmd" in
+	dep)
+		set -x;
+		dep ensure;
+		;;
+
+	env)
+		set -x;
+		export goDir="$goDir";
+		echo "Go-wrapper environment provisioned";
+		;;
+
 	download)
 		set -- go get -v -d "$@"
 		if [ "$goDir" ]; then set -- "$@" "$goDir"; fi
