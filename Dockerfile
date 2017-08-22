@@ -22,10 +22,10 @@ RUN adduser -s /bin/false -D ${APP_USER} \
  && go get -u github.com/githubnemo/CompileDaemon \
  && go get -u github.com/golang/dep/cmd/dep \
  && echo "Building project…" \
- && ${SRC_PATH}/go-wrapper env \ 
+ && goWrapProvision="$(go-wrapper fake 2>/dev/null || true)" \
  && export goDir="$(go list -e -f '{{.ImportComment}}' 2>/dev/null || true)" \
  && cd "${GOPATH}/src/${goDir}" \
- && ${SRC_PATH}/go-wrapper dep \
+ && dep ensure \
  && go-wrapper install \
  && echo "Fixing permissions..." \
  && chown -R ${APP_USER} ${GOPATH} \
