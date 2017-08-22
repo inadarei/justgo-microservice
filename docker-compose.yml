@@ -3,15 +3,16 @@ version: '2'
 services: 
   ms-helloworld:
     container_name: ms-helloworld
+    user: root # avoids ton of volume mounting headaches in dev mode.
     build: .
     volumes:
       - .:/home/app
-      - /home/app/vendor
+      #- /home/app/vendor
     ports:
       - 3737
     environment:
       - APP_ENV=development
-    command: CompileDaemon -build="go-wrapper install" -command="go-wrapper run" -exclude-dir=.git
+    command: CompileDaemon -build="scripts/build.sh" -command="go-wrapper run" -exclude-dir=.git
 
 # @see: https://github.com/codegangsta/gin
 

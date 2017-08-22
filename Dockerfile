@@ -23,13 +23,11 @@ RUN adduser -s /bin/false -D ${APP_USER} \
  && go get -u github.com/golang/dep/cmd/dep \
  && echo "Building project…" \
  && goWrapProvision="$(go-wrapper fake 2>/dev/null || true)" \
- && export goDir="$(go list -e -f '{{.ImportComment}}' 2>/dev/null || true)" \
- && cd "${GOPATH}/src/${goDir}" \
- && dep ensure \
+ && scripts/env-jmp.sh dep ensure \
  && go-wrapper install \
  && echo "Fixing permissions..." \
- && chown -R ${APP_USER} ${GOPATH} \
- && chown -R ${APP_USER} ${SRC_PATH} \
+ && chown -R ${APP_USER}:${APP_USER} ${GOPATH} \
+ && chown -R ${APP_USER}:${APP_USER} ${SRC_PATH} \
  && echo "Cleaning up installation caches to reduce image size" \
  && rm -rf /root/src /tmp/* /usr/share/man /var/cache/apk/* 
 
