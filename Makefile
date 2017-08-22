@@ -29,10 +29,10 @@ build:
 dep-add:
 	docker-compose exec ${projname} scripts/env-jmp.sh dep ensure -add ${package}
 
-.PHONY: dep-up
-dep-up:
+.PHONY: dep-update
+dep-update:
 	docker-compose exec ${projname} scripts/env-jmp.sh dep ensure -update ${package}
 
-.PHONY: dep-up-all
-dep-up-all:
+.PHONY: dep-update-all
+dep-update-all:
 	docker-compose exec ${projname} scripts/env-jmp.sh dep ensure -update

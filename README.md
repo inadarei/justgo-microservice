@@ -38,10 +38,10 @@ To learn more: [https://justgo.rocks](https://justgo.rocks)
 > make dep-add package=github.com/gorilla/mux
 
 # update a dependency
-> make dep-up package=github.com/gorilla/mux
+> make dep-update package=github.com/gorilla/mux
 
 # update all dependencies
-> make dep-up-all
+> make dep-update-all
 
 ```
 
