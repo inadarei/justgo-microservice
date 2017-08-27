@@ -13,4 +13,7 @@
 .DS_Store
 
 # justgo
+tmp
 vendor
+Gopkg.lock # if you un-ignore vendor, uningore this, as well
+vendor.orig

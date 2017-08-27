@@ -2,22 +2,10 @@
 
 
 [[projects]]
-  name = "github.com/Sirupsen/logrus"
+  name = "github.com/sirupsen/logrus"
   packages = ["."]
   revision = "f006c2ac4710855cf0f916dd6b77acf6b048dc6e"
   version = "v1.0.3"
-
-[[projects]]
-  name = "github.com/gorilla/context"
-  packages = ["."]
-  revision = "1ea25387ff6f684839d82767c1733ff4d4d15d0a"
-  version = "v1.1"
-
-[[projects]]
-  name = "github.com/gorilla/mux"
-  packages = ["."]
-  revision = "bcd8bc72b08df0f70df986b97f95590779502d31"
-  version = "v1.4.0"
 
 [[projects]]
   branch = "master"
@@ -34,6 +22,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "b2325df9864fda1f81375909e42e785b51a7241bdd0f4a84015752227cbd7206"
+  inputs-digest = "10aeaeee47aff9e563a1db65fdce078290503f9d7ea7b72c6ab305849808c367"
   solver-name = "gps-cdcl"
   solver-version = 1

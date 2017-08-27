@@ -1,11 +1,11 @@
 #!/usr/bin/env sh
-set -e
+# set -e
 
 export goDir="$(go list -e -f '{{.ImportComment}}' 2>/dev/null || true)"
-OLD_PATH=${PWD}
+OLD_PATH=`pwd`
 cd "${GOPATH}/src/${goDir}"
 
 dep ensure
-go-wrapper install
+fresh -c scripts/runner.conf
 
-cd ${OLD_PATH}
+# cd ${OLD_PATH}

@@ -7,12 +7,12 @@ services:
     build: .
     volumes:
       - .:/home/app
-      #- /home/app/vendor
     ports:
       - 3737
     environment:
       - APP_ENV=development
-    command: CompileDaemon -build="scripts/build.sh" -command="go-wrapper run" -exclude-dir=.git
+    command: scripts/build.sh
 
-# @see: https://github.com/codegangsta/gin
+# @see: https://github.com/pilu/fresh
+# @alt @see: https://github.com/codegangsta/gin
 

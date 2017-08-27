@@ -19,20 +19,20 @@ RUN adduser -s /bin/false -D ${APP_USER} \
  && apk update && apk upgrade \
  && apk add --no-cache bash git openssh \
  && echo "Installing infrastructural go packages…" \
- && go get -u github.com/githubnemo/CompileDaemon \
+ && go get -u github.com/pilu/fresh \
+ # && go get -u github.com/githubnemo/CompileDaemon \
  && go get -u github.com/golang/dep/cmd/dep \
- && echo "Building project…" \
+ && echo "Installing Dependencies…" \
  && goWrapProvision="$(go-wrapper fake 2>/dev/null || true)" \
  && scripts/env-jmp.sh dep ensure \
- && go-wrapper install \
  && echo "Fixing permissions..." \
  && chown -R ${APP_USER}:${APP_USER} ${GOPATH} \
  && chown -R ${APP_USER}:${APP_USER} ${SRC_PATH} \
+ && chmod u+x ${SRC_PATH}/scripts/*.sh \
  && echo "Cleaning up installation caches to reduce image size" \
  && rm -rf /root/src /tmp/* /usr/share/man /var/cache/apk/* 
 
 USER ${APP_USER}
 
 EXPOSE 3737
-
-CMD ["go-wrapper", "run"]
+CMD ["go-wrapper", "install", "&&", "go-wrapper", "run"]

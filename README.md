@@ -15,8 +15,43 @@ directly.
 
 To learn more: [https://justgo.rocks](https://justgo.rocks)
 
+## Quickstart
 
-## USAGE
+1. Get code with [justgo]() (preferred) or by checking this repo out, locally.
+2. Build project and start inside a container: 
+
+    ```
+    > make
+    ```
+
+3. Check logs to verify things are running properly:
+
+    ```
+    > make logs
+    ```
+
+    If you see `Application starting up...` as the last entry in the log
+    things should be A-OK. 
+
+4. Find the port the server attached to by running:
+
+   ```
+   > make ps
+   ```
+
+   which will have an output that looks something like 
+
+   ```
+     Name                   Command               State            Ports
+   --------------------------------------------------------------------------------
+   ms-helloworld   CompileDaemon -build=scrip ...   Up      0.0.0.0:32770->3737/tcp
+   ```
+
+   Whatever you see instead of `0.0.0.0:32770` is the host/port that your
+   microservice started at. Type it in your browser or Postman or another
+   HTTP client of your choice to verify that the service is responding.
+
+## Usage
 
 ```
 # run:
