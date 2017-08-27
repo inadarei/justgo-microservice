@@ -30,8 +30,10 @@ To learn more: [https://justgo.rocks](https://justgo.rocks)
     > make logs
     ```
 
-    If you see `Application starting up...` as the last entry in the log
-    things should be A-OK. 
+    If you see `Starting microservice on internal port` as the last entry in 
+    the log things should be A-OK. However, the port indicated there is
+    internal to the Docker container and not a port you can test the service
+    at. You need to run `make ps` to detect the external port (see below).
 
 4. Find the port the server attached to by running:
 
