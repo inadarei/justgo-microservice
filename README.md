@@ -1,5 +1,6 @@
 # justgo-microservice
 [![Contributions Welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/inadarei/justgo-microservice/issues)
+[![Go Report Card](https://goreportcard.com/badge/github.com/inadarei/justgo-microservice)](https://goreportcard.com/report/github.com/inadarei/justgo-microservice)
 
 Microservice Template for JustGo (https://git.justgo.rocks)
 
