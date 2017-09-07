@@ -85,6 +85,10 @@ To learn more: [https://justgo.rocks](https://justgo.rocks)
 
 ```
 
+## Contributing
+Contributions are always welcome, no matter how large or small. Substantial feature requests should be proposed as an [RFC](https://github.com/apiaryio/api-blueprint-rfcs/blob/master/template.md). Before contributing, please read the [code of conduct](https://github.com/inadarei/justgo-microservice/blob/master/CODE_OF_CONDUCT.md).
+
+
 ## License 
 
 [MIT](LICENSE)
