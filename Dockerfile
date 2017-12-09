@@ -1,4 +1,4 @@
-FROM golang:1.8-alpine3.6
+FROM golang:1.9-alpine3.6
 MAINTAINER Irakli Nadareishvili
 
 ENV PORT=3737
@@ -15,12 +15,11 @@ WORKDIR ${SRC_PATH}
 USER root
 
 RUN adduser -s /bin/false -D ${APP_USER} \
- && echo "Installing git and ssh support" \ 
+ && echo "Installing git and ssh support" \
  && apk update && apk upgrade \
  && apk add --no-cache bash git openssh \
  && echo "Installing infrastructural go packages…" \
  && go get -u github.com/pilu/fresh \
- # && go get -u github.com/githubnemo/CompileDaemon \
  && go get -u github.com/golang/dep/cmd/dep \
  && echo "Installing Dependencies…" \
  && goWrapProvision="$(go-wrapper fake 2>/dev/null || true)" \
@@ -30,7 +29,7 @@ RUN adduser -s /bin/false -D ${APP_USER} \
  && chown -R ${APP_USER}:${APP_USER} ${SRC_PATH} \
  && chmod u+x ${SRC_PATH}/scripts/*.sh \
  && echo "Cleaning up installation caches to reduce image size" \
- && rm -rf /root/src /tmp/* /usr/share/man /var/cache/apk/* 
+ && rm -rf /root/src /tmp/* /usr/share/man /var/cache/apk/*
 
 USER ${APP_USER}
 
