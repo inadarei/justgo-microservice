@@ -1,18 +1,18 @@
 version: '2'
 
-services: 
+services:
   ms-helloworld:
     container_name: ms-helloworld
     user: root # avoids ton of volume mounting headaches in dev mode.
     build: .
     volumes:
-      - .:/home/app
+      - .:/go/src/app
+      #- /go/src/app/vendor
     ports:
       - 3737
     environment:
       - APP_ENV=development
-    command: scripts/build.sh
+    command: scripts/run.sh
 
 # @see: https://github.com/pilu/fresh
 # @alt @see: https://github.com/codegangsta/gin
-

@@ -6,7 +6,7 @@ ENV PORT=3737
 # ENV GOPATH=/go
 # ENV PATH=${GOPATH}/bin:${PATH}
 ENV APP_USER=appuser
-ENV SRC_PATH=/home/app
+ENV SRC_PATH=$GOPATH/src/app
 ENV APP_ENV=production
 
 COPY . ${SRC_PATH}
@@ -23,7 +23,7 @@ RUN adduser -s /bin/false -D ${APP_USER} \
  && go get -u github.com/golang/dep/cmd/dep \
  && echo "Installing Dependencies…" \
  && goWrapProvision="$(go-wrapper fake 2>/dev/null || true)" \
- && scripts/env-jmp.sh dep ensure \
+ && cd ${SRC_PATH} && dep ensure -update \
  && echo "Fixing permissions..." \
  && chown -R ${APP_USER}:${APP_USER} ${GOPATH} \
  && chown -R ${APP_USER}:${APP_USER} ${SRC_PATH} \
@@ -34,4 +34,4 @@ RUN adduser -s /bin/false -D ${APP_USER} \
 USER ${APP_USER}
 
 EXPOSE 3737
-CMD ["go-wrapper", "install", "&&", "go-wrapper", "run"]
+CMD ["go", "run", "application.go"]
