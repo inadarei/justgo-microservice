@@ -23,7 +23,7 @@ RUN adduser -s /bin/false -D ${APP_USER} \
  && go get -u github.com/golang/dep/cmd/dep \
  && echo "Installing Dependencies…" \
  && goWrapProvision="$(go-wrapper fake 2>/dev/null || true)" \
- && cd ${SRC_PATH} && dep ensure -update \
+ && cd ${SRC_PATH} && dep ensure && dep ensure -update \
  && echo "Fixing permissions..." \
  && chown -R ${APP_USER}:${APP_USER} ${GOPATH} \
  && chown -R ${APP_USER}:${APP_USER} ${SRC_PATH} \
