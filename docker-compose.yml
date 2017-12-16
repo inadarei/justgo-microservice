@@ -7,7 +7,6 @@ services:
     build: .
     volumes:
       - .:/go/src/app
-      #- /go/src/app/vendor
     ports:
       - 3737
     environment:
