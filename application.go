@@ -1,13 +1,11 @@
-// Note: the comment below after 'main' is a hint to go-wrapper and is meaningful
-// Replace with the package path for your project
-package main // import "github.com/inadarei/justgo-microservice"
+package main
 
 import (
 	"os"
 
 	log "github.com/sirupsen/logrus"
 
-	"github.com/inadarei/justgo-microservice/server"
+	"app/server"
 )
 
 func main() {
