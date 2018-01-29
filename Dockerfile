@@ -17,7 +17,7 @@ USER root
 RUN adduser -s /bin/false -D ${APP_USER} \
  && echo "Installing git and ssh support" \
  && apk update && apk upgrade \
- && apk add --no-cache bash git openssh \
+ && apk add --no-cache bash git \
  && echo "Installing infrastructural go packages…" \
  && go get -u github.com/pilu/fresh \
  && go get -u github.com/golang/dep/cmd/dep \
