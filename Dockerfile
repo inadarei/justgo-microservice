@@ -15,7 +15,7 @@ WORKDIR ${SRC_PATH}
 USER root
 
 RUN adduser -s /bin/false -D ${APP_USER} \
- && echo "Installing git and ssh support" \
+ && echo "Installing git and bash support" \
  && apk update && apk upgrade \
  && apk add --no-cache bash git \
  && echo "Installing infrastructural go packages…" \
@@ -33,5 +33,5 @@ RUN adduser -s /bin/false -D ${APP_USER} \
 
 USER ${APP_USER}
 
-EXPOSE 3737
+EXPOSE ${PORT}
 CMD ["go", "run", "application.go"]
