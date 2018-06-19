@@ -1,8 +1,11 @@
 version: '2'
 
 services:
-  ms-helloworld:
-    container_name: ms-helloworld
+  ms-demo-golang:
+    container_name: ms-demo-golang
+    labels:
+      - "traefik.backend=ms-demo-golang"
+      - "traefik.frontend.rule=PathPrefixStrip: /demogo"
     user: root # avoids ton of volume mounting headaches in dev mode.
     build: .
     volumes:
