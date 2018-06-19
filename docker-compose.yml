@@ -12,6 +12,7 @@ services:
       - .:/go/src/app
     ports:
       - 3737
+      # - 3738 # health check endpoint
     environment:
       - APP_ENV=development
     command: scripts/run.sh
