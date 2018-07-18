@@ -1,5 +1,5 @@
 FROM golang:1.10.3-alpine3.8 as builder
-MAINTAINER Irakli Nadareishvili
+LABEL maintainer="Irakli Nadareishvili"
 
 ENV PORT=3737
 # Commented-out because these are defaults anyway
@@ -28,14 +28,15 @@ RUN adduser -s /bin/false -D ${APP_USER} \
  && chown -R ${APP_USER}:${APP_USER} ${GOPATH} \
  && chown -R ${APP_USER}:${APP_USER} ${SRC_PATH} \
  && chmod u+x ${SRC_PATH}/scripts/*.sh \
- # && echo "Building self-contained binary" \
- && echo "Cleaning up installation caches to reduce image size" 
- # && rm -rf /root/src /tmp/* /usr/share/man /var/cache/apk/*
+ && echo "Cleaning up installation caches to reduce image size" \
+ && rm -rf /root/src /tmp/* /usr/share/man /var/cache/apk/*
 
 USER ${APP_USER}
 
 EXPOSE ${PORT}
-# CMD ["go", "run", "application.go"]
+
+
+
 
 FROM scratch as release
 ENV APP_ENV=production
