@@ -11,6 +11,7 @@
 *.out
 .idea/
 .DS_Store
+main
 
 # justgo
 tmp
