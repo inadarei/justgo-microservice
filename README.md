@@ -83,6 +83,12 @@ To learn more: [https://justgo.rocks](https://justgo.rocks)
 # update all dependencies
 > make dep-update-all
 
+# build a release (production-appropriate) Docker image "from scratch":
+> make build-release
+
+# Run the release build:
+> make run-release
+
 ```
 
 ## Contributing
