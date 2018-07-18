@@ -1,4 +1,4 @@
-FROM golang:1.9-alpine3.6
+FROM golang:1.10.3-alpine3.8 as builder
 MAINTAINER Irakli Nadareishvili
 
 ENV PORT=3737
@@ -28,10 +28,19 @@ RUN adduser -s /bin/false -D ${APP_USER} \
  && chown -R ${APP_USER}:${APP_USER} ${GOPATH} \
  && chown -R ${APP_USER}:${APP_USER} ${SRC_PATH} \
  && chmod u+x ${SRC_PATH}/scripts/*.sh \
- && echo "Cleaning up installation caches to reduce image size" \
- && rm -rf /root/src /tmp/* /usr/share/man /var/cache/apk/*
+ # && echo "Building self-contained binary" \
+ && echo "Cleaning up installation caches to reduce image size" 
+ # && rm -rf /root/src /tmp/* /usr/share/man /var/cache/apk/*
 
 USER ${APP_USER}
 
 EXPOSE ${PORT}
-CMD ["go", "run", "application.go"]
+# CMD ["go", "run", "application.go"]
+
+FROM scratch as release
+ENV APP_ENV=production
+ENV PORT=3737
+
+WORKDIR /
+COPY --from=builder /go/src/app/main .
+CMD ["/main"]
