@@ -37,10 +37,6 @@ clean: stop build start
 dep-add:
 	docker-compose -p ${project} exec ${service} go get -u ${package}
 
-.PHONY: dep-update
-dep-update:
-	docker-compose -p ${project} exec ${service} go get -u ${package}
-
 .PHONY: dep-verify
 dep-verify:
 	docker-compose -p ${project} exec ${service} go mod verify

@@ -12,6 +12,7 @@ import (
  * StartServer is the main entrance into the server.
  */
 func StartServer(serverPort string) {
+
 	// Creates a gin router with default middleware:
 	// logger and recovery (crash-free) middleware
 	router := gin.Default()
