@@ -74,14 +74,8 @@ To learn more: [https://justgo.rocks](https://justgo.rocks)
 # jump into the Docker container
 > make shell
 
-# add a dependency:
-> make dep-add package=github.com/gorilla/mux
-
-# update a dependency
-> make dep-update package=github.com/gorilla/mux
-
-# update all dependencies
-> make dep-update-all
+# To add a dependency, just modify go.mod
+# and hot reloader will do the rest! THAT EASY
 
 # build a release (production-appropriate) Docker image "from scratch":
 > make build-release

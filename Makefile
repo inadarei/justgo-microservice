@@ -30,17 +30,16 @@ shell:
 build:
 	docker-compose -p ${project} build --no-cache
 
+.PHONY: clean
+clean: stop build start
+
 .PHONY: dep-add
 dep-add:
-	docker-compose -p ${project} exec ${service} dep ensure -add ${package}
+	docker-compose -p ${project} exec ${service} go get -u ${package}
 
-.PHONY: dep-update
-dep-update:
-	docker-compose -p ${project} exec ${service} dep ensure -update ${package}
-
-.PHONY: dep-update-all
-dep-update-all:
-	docker-compose -p ${project} exec ${service} dep ensure -update
+.PHONY: dep-verify
+dep-verify:
+	docker-compose -p ${project} exec ${service} go mod verify
 
 .PHONY: commit-hash
 commit-hash:

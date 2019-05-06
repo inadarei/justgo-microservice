@@ -11,13 +11,13 @@ services:
       context: .
       target: builder
     volumes:
-      - .:/go/src/app
+      - .:/app
     ports:
       - 3737
       # - 3738 # health check endpoint
     environment:
       - APP_ENV=development
-    command: scripts/run.sh
+    command: reflex -c reflex.conf
 
 # @see: https://github.com/pilu/fresh
 # @alt @see: https://github.com/codegangsta/gin

@@ -1,4 +1,4 @@
-FROM golang:1.10.3-alpine3.8 as builder
+FROM golang:1.12-alpine3.9 as builder
 LABEL maintainer="Irakli Nadareishvili"
 
 ENV PORT=3737
@@ -6,8 +6,10 @@ ENV PORT=3737
 # ENV GOPATH=/go
 # ENV PATH=${GOPATH}/bin:${PATH}
 ENV APP_USER=appuser
-ENV SRC_PATH=$GOPATH/src/app
-ENV APP_ENV=production
+ENV SRC_PATH=/app
+ENV GIN_MODE=release
+ENV GO111MODULE=on
+# ENV APP_ENV=production
 
 COPY . ${SRC_PATH}
 WORKDIR ${SRC_PATH}
@@ -18,24 +20,19 @@ RUN adduser -s /bin/false -D ${APP_USER} \
  && echo "Installing git and bash support" \
  && apk update && apk upgrade \
  && apk add --no-cache bash git \
- && echo "Installing infrastructural go packages…" \
- && go get -u github.com/pilu/fresh \
- && go get -u github.com/golang/dep/cmd/dep \
- && echo "Installing Dependencies…" \
- && goWrapProvision="$(go-wrapper fake 2>/dev/null || true)" \
- && cd ${SRC_PATH} && dep ensure && dep ensure -update \
+ && echo "Installing code hot reloader" \
+ && go get -u github.com/cespare/reflex \
+ && echo "Installing go dependencies…" \
+ && go mod verify \
  && echo "Fixing permissions..." \
  && chown -R ${APP_USER}:${APP_USER} ${GOPATH} \
  && chown -R ${APP_USER}:${APP_USER} ${SRC_PATH} \
- && chmod u+x ${SRC_PATH}/scripts/*.sh \
  && echo "Cleaning up installation caches to reduce image size" \
  && rm -rf /root/src /tmp/* /usr/share/man /var/cache/apk/*
 
 USER ${APP_USER}
 
 EXPOSE ${PORT}
-
-
 
 
 FROM scratch as release
