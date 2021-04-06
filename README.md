@@ -49,7 +49,7 @@ To learn more: [https://justgo.rocks](https://justgo.rocks)
    ```
      Name                   Command               State            Ports
    --------------------------------------------------------------------------------
-   ms-helloworld   CompileDaemon -build=scrip ...   Up      0.0.0.0:32770->3737/tcp
+   ms-demo-golang      reflex -c reflex.conf      Up       0.0.0.0:32770->3737/tcp
    ```
 
    Whatever you see instead of `0.0.0.0:32770` is the host/port that your
