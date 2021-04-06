@@ -38,7 +38,7 @@ dep-add:
 
 .PHONY: dep-verify
 dep-verify:
-	docker-compose -p ${project} exec ${service} go mod verify
+	docker-compose -p ${project} run ${service} go mod verify
 
 .PHONY: commit-hash
 commit-hash:
