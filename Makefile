@@ -1,7 +1,6 @@
 default: start
 project:=ms-workspace-demo
 service:=ms-demo-golang
-COMMIT_HASH = $(shell git rev-parse --verify HEAD)
 
 .PHONY: start
 start: 
@@ -46,10 +45,14 @@ commit-hash:
 	@echo $(COMMIT_HASH)
 
 .PHONY: build-release
+build-release : COMMIT_HASH = $(shell git rev-parse --verify HEAD)
 build-release:
 	docker build --target release -t local/${service}:${COMMIT_HASH} .
 
 .PHONY: run-release
+run-release : COMMIT_HASH = $(shell git rev-parse --verify HEAD)
 run-release:
-	docker run -d --name ${service}_${COMMIT_HASH} -p :3737 local/${service}:${COMMIT_HASH} /main
+	docker run -d --name ${service}_${COMMIT_HASH} -p :3737 local/${service}:${COMMIT_HASH} "/go/bin/microservice-bin"
 	docker logs -f ${service}_${COMMIT_HASH}
+
+

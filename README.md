@@ -77,6 +77,9 @@ To learn more: [https://justgo.rocks](https://justgo.rocks)
 # To add a dependency, just modify go.mod
 # and hot reloader will do the rest! THAT EASY
 
+# NOTE: `build-release` and `run-release` require that the project is 
+# version-controlled in git and that there's at least one commit.
+
 # build a release (production-appropriate) Docker image "from scratch":
 > make build-release
 
