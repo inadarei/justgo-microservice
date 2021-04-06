@@ -1,4 +1,4 @@
-FROM golang:1.12-alpine3.9 as builder
+FROM golang:1.12-alpine3.9 as devworkspace
 LABEL maintainer="Irakli Nadareishvili"
 
 ENV PORT=3737
@@ -34,11 +34,22 @@ USER ${APP_USER}
 
 EXPOSE ${PORT}
 
+FROM devworkspace as builder
+USER ${APP_USER}
+# Build the binary.
+RUN GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o /go/bin/microservice-bin \
+ && chmod u+x /go/bin/microservice-bin
+
 
 FROM scratch as release
 ENV APP_ENV=production
 ENV PORT=3737
 
-WORKDIR /
-COPY --from=builder /go/src/app/main .
-CMD ["/main"]
+WORKDIR /go/bin
+# Copy the user and group files
+COPY --from=builder /etc/passwd /etc/passwd
+COPY --from=builder /etc/group /etc/group
+# Copy the microservice binary
+COPY --from=builder /go/bin/microservice-bin /go/bin/microservice-bin
+USER ${APP_USER}
+ENTRYPOINT ["/go/bin/microservice-bin"]
