@@ -1,7 +1,6 @@
-FROM golang:1.16-alpine3.12 as devworkspace
+FROM golang:1.16-alpine3.12 as base
 LABEL maintainer="Irakli Nadareishvili"
 
-ENV PORT=3737
 # Commented-out because these are defaults anyway
 # ENV GOPATH=/go
 # ENV PATH=${GOPATH}/bin:${PATH}
@@ -9,7 +8,6 @@ ENV APP_USER=appuser
 ENV SRC_PATH=/app
 ENV GIN_MODE=release
 ENV GO111MODULE=on
-# ENV APP_ENV=production
 
 COPY . ${SRC_PATH}
 WORKDIR ${SRC_PATH}
@@ -26,16 +24,14 @@ RUN adduser -s /bin/false -D ${APP_USER} \
  && go mod verify \
  && echo "Fixing permissions..." \
  && chown -R ${APP_USER}:${APP_USER} ${GOPATH} \
- && chown -R ${APP_USER}:${APP_USER} ${SRC_PATH} \
- && echo "Cleaning up installation caches to reduce image size" \
- && rm -rf /root/src /tmp/* /usr/share/man /var/cache/apk/*
+ && chown -R ${APP_USER}:${APP_USER} ${SRC_PATH} 
 
 USER ${APP_USER}
 
 EXPOSE ${PORT}
 
-FROM devworkspace as builder
-USER ${APP_USER}
+FROM base as builder
+# USER ${APP_USER}
 # Build the binary.
 RUN CGO_ENABLED=0 GOARCH=amd64 GOOS=linux go build -ldflags "-s -w -extldflags '-static'" -o /go/bin/microservice-bin
 
@@ -52,3 +48,12 @@ COPY --from=builder /etc/group /etc/group
 COPY --from=builder /go/bin/microservice-bin /go/bin/microservice-bin
 USER ${APP_USER}
 CMD ["/go/bin/microservice-bin"]
+
+FROM base as devworkspace
+ENV APP_ENV=development
+ENV PORT=3737
+
+RUN echo "Cleaning up installation caches to reduce image size" \
+ && rm -rf /root/src /tmp/* /usr/share/man /var/cache/apk/*
+
+EXPOSE ${PORT}
