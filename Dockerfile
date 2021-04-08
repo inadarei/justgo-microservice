@@ -31,7 +31,7 @@ USER ${APP_USER}
 EXPOSE ${PORT}
 
 FROM base as builder
-USER ${APP_USER}
+# USER ${APP_USER}
 # Build the binary.
 RUN CGO_ENABLED=0 GOARCH=amd64 GOOS=linux go build -ldflags "-s -w -extldflags '-static'" -o /go/bin/microservice-bin
 

@@ -9,7 +9,7 @@ services:
     user: root # avoids ton of volume mounting headaches in dev mode.
     build: 
       context: .
-      target: builder
+      target: devworkspace
     volumes:
       - .:/app
     ports:
