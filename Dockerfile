@@ -1,4 +1,4 @@
-FROM golang:1.16-alpine3.12 as base
+FROM golang:1.18-alpine as base
 LABEL maintainer="Irakli Nadareishvili"
 
 # Commented-out because these are defaults anyway
@@ -7,7 +7,7 @@ LABEL maintainer="Irakli Nadareishvili"
 ENV APP_USER=appuser
 ENV SRC_PATH=/app
 ENV GIN_MODE=release
-ENV GO111MODULE=on
+# ENV GO111MODULE=on
 
 COPY . ${SRC_PATH}
 WORKDIR ${SRC_PATH}
@@ -18,10 +18,11 @@ RUN adduser -s /bin/false -D ${APP_USER} \
  && echo "Installing git and bash support" \
  && apk update && apk upgrade \
  && apk add --no-cache bash git \
- && echo "Installing code hot reloader" \
- && go get -u github.com/cespare/reflex \
+ && echo "Installing code hot re-loader" \
+ #&& go get -u github.com/cespare/reflex \
+ && go install github.com/cespare/reflex@latest \
  && echo "Installing go dependencies…" \
- && go mod verify \
+ && go mod tidy \
  && echo "Fixing permissions..." \
  && chown -R ${APP_USER}:${APP_USER} ${GOPATH} \
  && chown -R ${APP_USER}:${APP_USER} ${SRC_PATH} 
@@ -33,7 +34,7 @@ EXPOSE ${PORT}
 FROM base as builder
 # USER ${APP_USER}
 # Build the binary.
-RUN CGO_ENABLED=0 GOARCH=amd64 GOOS=linux go build -ldflags "-s -w -extldflags '-static'" -o /go/bin/microservice-bin
+RUN CGO_ENABLED=0 go build -ldflags "-s -w -extldflags '-static'" -buildvcs=false -o /go/bin/microservice-bin
 
 
 FROM scratch as release
@@ -53,7 +54,7 @@ FROM base as devworkspace
 ENV APP_ENV=development
 ENV PORT=3737
 
-RUN echo "Cleaning up installation caches to reduce image size" \
- && rm -rf /root/src /tmp/* /usr/share/man /var/cache/apk/*
+# RUN echo "Cleaning up installation caches to reduce image size" \
+# && rm -rf /root/src /tmp/* /usr/share/man /var/cache/apk/*
 
 EXPOSE ${PORT}

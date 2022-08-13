@@ -17,7 +17,7 @@ services:
       # - 3738 # health check endpoint
     environment:
       - APP_ENV=development
-    command: reflex -c reflex.conf
+    command: /go/bin/reflex -c reflex.conf
 
 # @see: https://github.com/pilu/fresh
 # @alt @see: https://github.com/codegangsta/gin
